@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "react-native-reminder-app",
+    "slug": "react-native-reminder-app",
+    "version": "1.0.3",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5c802488-58f7-463c-8261-fc88c298d34e"
+      }
+    },
+    "plugins": [
+      "expo-localization"
+    ],
+    "owner": "davidebalice"
+  },
+  "name": "react-native-reminder-app"
+}

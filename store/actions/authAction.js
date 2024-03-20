@@ -1,6 +1,6 @@
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import API_URLS from "../../config";
 import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
@@ -51,19 +51,25 @@ export const userLogin = (data) => {
 
     try {
       const response = await axios.post(
-        "/api/chat/user-login",
+        `${API_URLS.chatApi}/api/chat/user-login/`,
         data,
         config
       );
-      AsyncStorage.setItem("authToken", response.data.token);
-      dispath({
-        type: USER_LOGIN_SUCCESS,
-        payload: {
-          successMessage: response.data.successMessage,
-          token: response.data.token,
-        },
-      });
+
+      if (response.status === 200) {
+        AsyncStorage.setItem("authToken", response.data.token);
+        console.log(response.data.token);
+        dispath({
+          type: USER_LOGIN_SUCCESS,
+          payload: {
+            successMessage: response.data.successMessage,
+            token: response.data.token,
+          },
+        });
+      }
     } catch (error) {
+      console.log("error catch");
+      console.log(error.message);
       dispath({
         type: USER_LOGIN_FAIL,
         payload: {

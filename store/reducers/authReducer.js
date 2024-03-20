@@ -9,7 +9,20 @@ import {
 } from "../types/authType";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import deCodeToken from "jwt-decode";
+//import deCodeToken from "jwt-decode";
+import "core-js/stable/atob";
+import { jwtDecode } from "jwt-decode";
+//import * as jwt_decode from 'jwt-decode';
+
+/*
+STEP 1 Install npm install core-js
+
+STEP 2 import "core-js/stable/atob";
+
+Now simply use const token = "your_token";
+
+const decoded = jwtDecode(token);
+*/
 
 const authState = {
   loading: true,
@@ -20,7 +33,9 @@ const authState = {
 };
 
 const tokenDecode = (token) => {
-  const tokenDecoded = deCodeToken(token);
+  const tokenDecoded = jwtDecode(token);
+  console.log("tokenDecoded");
+  console.log(tokenDecoded);
   const expTime = new Date(tokenDecoded.exp * 1000);
   if (new Date() > expTime) {
     return null;
@@ -31,6 +46,8 @@ const tokenDecode = (token) => {
 const retrieveTokenAndDecode = async () => {
   try {
     const getToken = await AsyncStorage.getItem("authToken");
+    console.log("getToken");
+    console.log(getToken);
     if (getToken) {
       const getInfo = tokenDecode(getToken);
       if (getInfo) {
@@ -63,7 +80,9 @@ export const authReducer = (state = authState, action) => {
   }
 
   if (type === REGISTER_SUCCESS || type === USER_LOGIN_SUCCESS) {
+    console.log("qui");
     const myInfo = tokenDecode(payload.token);
+    console.log(myInfo);
     return {
       ...state,
       myInfo: myInfo,

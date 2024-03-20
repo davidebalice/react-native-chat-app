@@ -1,100 +1,107 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
+
+//import { Link, useNavigate } from "react-router-dom";
 import {
   View,
   TextInput,
+  Button,
   Alert,
-  StyleSheet,
+  Image,
   Text,
+  StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import API_URLS from "../config";
-import { AuthContext } from "../context/authContext";
+import { userLogin } from "../store/actions/authAction";
+//import { useAlert } from "react-alert";
+import { useDispatch, useSelector } from "react-redux";
+import { ERROR_CLEAR, SUCCESS_MESSAGE_CLEAR } from "../store/types/authType";
 
 const Login = () => {
-  const [username, setUsername] = useState("mario@rossi.it");
-  const [password, setPassword] = useState("12345678");
-  const { token, setAuthToken } = useContext(AuthContext);
+  //const navigate = useNavigate();
 
-  const storeData = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-      console.log("Value stored successfully!");
-    } catch (e) {
-      console.error("Error storing value:", e);
-    }
-  };
+  //const alert = useAlert();
 
-  const handleLogin = async () => {
-    if (!username || !password) {
-      Alert.alert("Error", "Insert email and password");
-      return;
-    }
+  const { loading, authenticate, error, successMessage, myInfo } = useSelector(
+    (state) => state.auth
+  );
 
-    const data = {
-      email: username,
-      password,
-    };
+  const dispatch = useDispatch();
 
-    const options = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      params: {
-        email: username,
-        password,
-      },
-    };
+  const [state, setState] = useState({
+    email: "mario@rossi.it",
+    password: "12345678",
+  });
 
-    const response = await axios.post(`${API_URLS.chatApi}/api/login/`, {
-      email: username,
-      password: password,
+  const inputHandle = (name, value) => {
+    setState({
+      ...state,
+      [name]: value,
     });
-
-    if (response.status === 200) {
-      const data = response.data;
-      if (data.token === undefined) {
-        Alert.alert("Invalid login data");
-        storeData("userToken", "");
-        setAuthToken("");
-      } else {
-        storeData("userToken", data.token);
-        setAuthToken(data.token);
-        Alert.alert("Success", "User authenticated");
-        setUsername("");
-        setPassword("");
-      }
-    } else {
-      const errorData = response.data;
-      Alert.alert("Login error", errorData.message || "Login error");
-    }
   };
+
+  const login = (e) => {
+    e.preventDefault();
+    dispatch(userLogin(state));
+  };
+
+  useEffect(() => {
+    if (authenticate) {
+      navigate("/");
+    }
+    if (successMessage) {
+      //alert.success(successMessage);
+      dispatch({ type: SUCCESS_MESSAGE_CLEAR });
+    }
+    if (error) {
+      // error.map((err) => alert.error(err));
+      dispatch({ type: ERROR_CLEAR });
+    }
+  }, [successMessage, error]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.loginBox}>
-        <Text style={styles.paragraph}>Login</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={username}
-          onChangeText={(text) => setUsername(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <View style={styles.demoData}>
-          <Text style={styles.demoDataP}>Demo data:</Text>
-          <Text style={styles.demoDataP2}>username: mariorossi</Text>
-          <Text style={styles.demoDataP2}>password: 12345678</Text>
+    <View className="register">
+      <View className="card">
+        <View className="card-header">
+          <Text>Login</Text>
+        </View>
+
+        <View className="card-body">
+          {/*
+          <form onSubmit={login}>
+          */}
+          <View className="form-group">
+            <Text htmlFor="email">Email</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(value) => inputHandle("email", value)}
+              placeholder="Email"
+              value={state.email}
+              name="email"
+            />
+          </View>
+
+          <View className="form-group">
+            <Text htmlFor="password">Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              secureTextEntry
+              value={state.password}
+              name="password"
+              onChangeText={(value) => inputHandle("password", value)}
+            />
+          </View>
+
+          <View className="form-group">
+            <TouchableOpacity onPress={login} style={styles.loginButton}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View className="form-group">
+            {/*  <Link to="/chat/register"> Register new account </Link> */}
+            <Text to="/chat/register"> Register new account </Text>
+          </View>
         </View>
       </View>
     </View>

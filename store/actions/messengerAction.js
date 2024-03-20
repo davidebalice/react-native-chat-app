@@ -1,4 +1,6 @@
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   FRIEND_GET_SUCCESS,
   MESSAGE_GET_SUCCESS,
@@ -84,7 +86,7 @@ export const updateMessage = (msg) => async (dispatch) => {
 };
 
 export const getTheme = () => async (dispatch) => {
-  const theme = localStorage.getItem("theme");
+  const theme = AsyncStorage.getItem("theme");
   dispatch({
     type: "THEME_GET_SUCCESS",
     payload: {
@@ -94,7 +96,7 @@ export const getTheme = () => async (dispatch) => {
 };
 
 export const themeSet = (theme) => async (dispatch) => {
-  localStorage.setItem("theme", theme);
+  AsyncStorage.setItem("theme", theme);
   dispatch({
     type: "THEME_SET_SUCCESS",
     payload: {

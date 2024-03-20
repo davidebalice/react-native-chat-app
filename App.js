@@ -1,26 +1,33 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { PaperProvider, DefaultTheme } from "react-native-paper";
 import Navigator from "./router/Navigator";
 import { AuthProvider } from "./context/authContext";
-import ThemeContext from "./context/themeContext";
 import { lightTheme } from "./context/themes";
+import "react-native-gesture-handler";
+import { Provider } from "react-redux";
+import store from "./store/index.js";
+
+//import { positions, transitions, Provider as AlertProvider } from "react-alert";
+//import alertTemplate from "react-alert-template-basic";
 
 const App = () => {
   const [theme, setTheme] = useState(lightTheme);
-
-  const toggleTheme = (newTheme) => {
-    setTheme(newTheme);
+  /*
+  const options = {
+    timeout: 5000,
+    positions: positions.BOTTOM_CENTER,
+    transitions: transitions.SCALE,
   };
+*/
+
+
   return (
     <>
       <NavigationContainer>
         <AuthProvider>
-          <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            <PaperProvider theme={theme}>
-              <Navigator />
-            </PaperProvider>
-          </ThemeContext.Provider>
+          <Provider store={store}>
+            <Navigator />
+          </Provider>
         </AuthProvider>
       </NavigationContainer>
     </>

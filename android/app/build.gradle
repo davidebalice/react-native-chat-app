@@ -74,12 +74,20 @@ def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInRelea
  * give correct results when using with locales other than en-US. Note that
  * this variant is about 6MiB larger per architecture than default.
  */
+
+
+ // compileSdkVersion rootProject.ext.compileSdkVersion
+
+ 
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+  
+    compileSdkVersion 33
+
+
 
     namespace "com.reminderapp"
     defaultConfig {

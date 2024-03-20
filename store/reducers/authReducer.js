@@ -7,6 +7,8 @@ import {
   USER_LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
 } from "../types/authType";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import deCodeToken from "jwt-decode";
 
 const authState = {
@@ -26,15 +28,26 @@ const tokenDecode = (token) => {
   return tokenDecoded;
 };
 
-const getToken = localStorage.getItem("authToken");
-if (getToken) {
-  const getInfo = tokenDecode(getToken);
-  if (getInfo) {
-    authState.myInfo = getInfo;
-    authState.authenticate = true;
-    authState.loading = false;
+const retrieveTokenAndDecode = async () => {
+  try {
+    const getToken = await AsyncStorage.getItem("authToken");
+    if (getToken) {
+      const getInfo = tokenDecode(getToken);
+      if (getInfo) {
+        authState.myInfo = getInfo;
+        authState.authenticate = true;
+        authState.loading = false;
+      }
+    }
+  } catch (error) {
+    console.error(
+      "Errore durante il recupero e la decodifica del token:",
+      error
+    );
   }
-}
+};
+
+retrieveTokenAndDecode();
 
 export const authReducer = (state = authState, action) => {
   const { payload, type } = action;

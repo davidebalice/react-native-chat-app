@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "react-native-reminder-app",
-    "slug": "react-native-reminder-app",
-    "version": "1.0.3",
+    "name": "react-native-chat-app",
+    "slug": "react-native-chat-app",
+    "version": "1.0.2",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -16,5 +16,5 @@
     ],
     "owner": "davidebalice"
   },
-  "name": "react-native-reminder-app"
+  "name": "react-native-chat-app"
 }

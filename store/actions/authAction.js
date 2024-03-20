@@ -1,4 +1,6 @@
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
@@ -19,7 +21,7 @@ export const userRegister = (data) => {
         data,
         config
       );
-      localStorage.setItem("authToken", response.data.token);
+      AsyncStorage.setItem("authToken", response.data.token);
 
       dispatch({
         type: REGISTER_SUCCESS,
@@ -53,7 +55,7 @@ export const userLogin = (data) => {
         data,
         config
       );
-      localStorage.setItem("authToken", response.data.token);
+      AsyncStorage.setItem("authToken", response.data.token);
       dispath({
         type: USER_LOGIN_SUCCESS,
         payload: {
@@ -76,7 +78,7 @@ export const userLogout = () => async (dispatch) => {
   try {
     const response = await axios.post("/api/chat/user-logout");
     if (response.data.success) {
-      localStorage.removeItem("authToken");
+      AsyncStorage.removeItem("authToken");
       dispatch({
         type: "LOGOUT_SUCCESS",
       });

@@ -1,7 +1,6 @@
 import React, { useRef, useState, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Avatar, Button, Card, Text } from "react-native-paper";
-import Friends from "../components/Friends";
 import ProtectedContents from "../middlewares/ProtectedContents";
 import { AuthContext } from "../context/authContext";
 

@@ -1,12 +1,11 @@
 import React, { useRef, useState, useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import { Avatar, Button, Card, Text } from "react-native-paper";
-import Friends from "../components/Friends";
-import ProtectedContents from "../middlewares/ProtectedContents";
+import Chat from "../components/Chat";
+//import ProtectedContents from "../middlewares/ProtectedContents";
 import { AuthContext } from "../context/authContext";
 
 const HomeScreen = ({ route }) => {
-  const { token, setAuthToken } = useContext(AuthContext);
+ // const { token, setAuthToken } = useContext(AuthContext);
 
   /*
   return (
@@ -18,7 +17,7 @@ const HomeScreen = ({ route }) => {
 
   return (
     <>
-      <Friends />
+      <Chat />
     </>
   );
 };

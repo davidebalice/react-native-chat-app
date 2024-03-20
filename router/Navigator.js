@@ -2,10 +2,9 @@ import React, { useState, useRef } from "react";
 import { DrawerLayoutAndroid } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation, Button, Text, View } from "@react-navigation/native";
-import Appbar from "../components/Appbar";
+import Chat from "../components/Chat";
 import HomeScreen from "../screens/HomeScreen";
-import ThemeScreen from "../screens/ThemeScreen";
-import ChatScreen from "../screens/ChatScreen";
+import TestScreen from "../screens/TestScreen";
 import SideMenu from "../components/SideMenu";
 
 const Stack = createStackNavigator();
@@ -34,31 +33,10 @@ const Navigator = () => {
     );
   };
   return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={300}
-      drawerPosition={"left"}
-      renderNavigationView={Drawer}
-    >
-      <Appbar openDrawer={openDrawer}></Appbar>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Chat"
-          component={ChatScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Theme"
-          component={ThemeScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </DrawerLayoutAndroid>
+    <>
+      
+      <Chat />
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
+  SET_PAGE,
 } from "../types/authType";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,6 +31,7 @@ const authState = {
   error: "",
   successMessage: "",
   myInfo: "",
+  page: "login",
 };
 
 const tokenDecode = (token) => {
@@ -80,9 +82,7 @@ export const authReducer = (state = authState, action) => {
   }
 
   if (type === REGISTER_SUCCESS || type === USER_LOGIN_SUCCESS) {
-    console.log("qui");
     const myInfo = tokenDecode(payload.token);
-    console.log(myInfo);
     return {
       ...state,
       myInfo: myInfo,
@@ -90,6 +90,7 @@ export const authReducer = (state = authState, action) => {
       error: "",
       authenticate: true,
       loading: false,
+      page: "chat",
     };
   }
 
@@ -113,6 +114,13 @@ export const authReducer = (state = authState, action) => {
       authenticate: false,
       myInfo: "",
       successMessage: "Logout Successfull",
+    };
+  }
+
+  if (type === "SET_PAGE") {
+    return {
+      ...state,
+      page: "chat",
     };
   }
 

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-//import { Link, useNavigate } from "react-router-dom";
 import {
   View,
   TextInput,
@@ -15,13 +13,12 @@ import { userLogin } from "../store/actions/authAction";
 //import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { ERROR_CLEAR, SUCCESS_MESSAGE_CLEAR } from "../store/types/authType";
+import { setPage } from "../store/actions/authAction";
 
 const Login = () => {
-  //const navigate = useNavigate();
-
   //const alert = useAlert();
 
-  const { loading, authenticate, error, successMessage, myInfo } = useSelector(
+  const { loading, authenticate, error, successMessage, page } = useSelector(
     (state) => state.auth
   );
 
@@ -46,7 +43,7 @@ const Login = () => {
 
   useEffect(() => {
     if (authenticate) {
-      navigate("/");
+      setPage("friends");
     }
     if (successMessage) {
       //alert.success(successMessage);

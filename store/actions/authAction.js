@@ -91,3 +91,10 @@ export const userLogout = () => async (dispatch) => {
     }
   } catch (error) {}
 };
+
+export const setPage = (newPage) => {
+  return {
+    type: 'SET_PAGE',
+    payload: newPage
+  };
+};

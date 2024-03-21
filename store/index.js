@@ -9,10 +9,8 @@ const rootReducer = combineReducers({
   messenger: messengerReducer,
 });
 
-//const middleware = require("redux-thunk").thunk;
 const middleware = [thunkMiddleware];
 
 const store = createStore(rootReducer, compose(applyMiddleware(...middleware)));
 
-//const store = createStore(rootReducer);
 export default store;

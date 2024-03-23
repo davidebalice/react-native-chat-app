@@ -1,37 +1,58 @@
 import moment from "moment";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import {
+  View,
+  TextInput,
+  Button,
+  Alert,
+  Image,
+  Text,
+  ScrollView,
+  FlatList,
+} from "react-native";
+
 //import { FaRegCheckCircle } from "react-icons/fa";
 
 const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
+  useEffect(() => {
+    // scrollRef.scrollToEnd({ animated: true });
+  }, [message]);
   const { myInfo } = useSelector((state) => state.auth);
+
   return (
     <>
-      <div className="message-show">
+      <View className="message-show">
         {message && message.length > 0 ? (
           message.map((m, index) =>
             m.senderId === myInfo.id ? (
-              <div ref={scrollRef} className="my-message">
-                <div className="image-message">
-                  <div className="my-text">
-                    <p className="message-text">
+              <ScrollView
+                ref={scrollRef}
+                className="my-message"
+                onContentSizeChange={() =>
+                  scrollRef.current.scrollToEnd({ animated: true })
+                }
+              >
+                <View className="image-message">
+                  <View className="my-text">
+                    <Text className="message-text">
                       {" "}
                       {m.message.text === "" ? (
-                        <img
-                          src={`${process.env.REACT_APP_API_BASE_URL}/api/chat/photo/${m.message.image}`}
+                        <Image
+                          source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/photo/${m.message.image}`}
                           alt=""
                         />
                       ) : (
                         m.message.text
-                      )}{" "}
-                    </p>
+                      )}
+                    </Text>
 
                     {index === message.length - 1 &&
                     m.senderId === myInfo.id ? (
                       m.status === "seen" ? (
-                        <img
+                        <Image
                           className="img"
-                          src={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
+                          spurce={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
                           alt=""
                         />
                       ) : m.status === "delivared" ? (
@@ -40,76 +61,76 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
                         <Text>FaRegCheckCircle</Text>
                       )
                     ) : (
-                      ""
+                      <Text></Text>
                     )}
-                  </div>
-                </div>
-                <div className="time">
-                  {moment(m.createdAt).startOf("mini").fromNow()}
-                </div>
-              </div>
+                  </View>
+                </View>
+                <View className="time">
+                  <Text>{moment(m.createdAt).startOf("mini").fromNow()}</Text>
+                </View>
+              </ScrollView>
             ) : (
-              <div ref={scrollRef} className="fd-message">
-                <div className="image-message-time">
-                  <img
-                    src={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
+              <View ref={scrollRef} className="fd-message">
+                <View className="image-message-time">
+                  <Image
+                    source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
                     alt=""
                   />
-                  <div className="message-time">
-                    <div className="fd-text">
-                      <p className="message-text">
+                  <View className="message-time">
+                    <View className="fd-text">
+                      <Text className="message-text">
                         {" "}
                         {m.message.text === "" ? (
-                          <img
-                            src={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${m.message.photo}`}
+                          <Image
+                            source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${m.message.photo}`}
                           />
                         ) : (
                           m.message.text
                         )}{" "}
-                      </p>
-                    </div>
-                    <div className="time">
+                      </Text>
+                    </View>
+                    <View className="time">
                       {moment(m.createdAt).startOf("mini").fromNow()}
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    </View>
+                  </View>
+                </View>
+              </View>
             )
           )
         ) : (
-          <div className="friend_connect">
-            <img
-              src={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
+          <View className="friend_connect">
+            <Image
+              source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
               alt=""
             />
-            <h3>{currentfriend.userName} Connect You </h3>
-            <span>
+            <Text>{currentfriend.userName} Connect You </Text>
+            <Text>
               {" "}
               {moment(currentfriend.createdAt).startOf("mini").fromNow()}{" "}
-            </span>
-          </div>
+            </Text>
+          </View>
         )}
-      </div>
+      </View>
       {typingMessage &&
       typingMessage.msg &&
       typingMessage.senderId === currentfriend._id ? (
-        <div className="typing-message">
-          <div className="fd-message">
-            <div className="image-message-time">
-              <img
-                src={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
+        <View className="typing-message">
+          <View className="fd-message">
+            <View className="image-message-time">
+              <Image
+                source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
                 alt=""
               />
-              <div className="message-time">
-                <div className="fd-text">
-                  <p className="time">Typing Message.... </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+              <View className="message-time">
+                <View className="fd-text">
+                  <Text className="time">Typing Message.... </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
       ) : (
-        ""
+        <Text></Text>
       )}
     </>
   );

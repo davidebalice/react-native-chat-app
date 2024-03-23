@@ -1,6 +1,6 @@
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import API_URLS from "../../config";
 import {
   FRIEND_GET_SUCCESS,
   MESSAGE_GET_SUCCESS,
@@ -11,7 +11,9 @@ import {
 
 export const getFriends = () => async (dispatch) => {
   try {
-    const response = await axios.get("/api/chat/get-friends");
+    const response = await axios.get(
+      `${API_URLS.chatApi}/api/chat/get-friends`
+    );
     dispatch({
       type: FRIEND_GET_SUCCESS,
       payload: {
@@ -25,7 +27,10 @@ export const getFriends = () => async (dispatch) => {
 
 export const messageSend = (data) => async (dispatch) => {
   try {
-    const response = await axios.post("/api/chat/send-message", data);
+    const response = await axios.post(
+      `${API_URLS.chatApi}/api/chat/send-message`,
+      data
+    );
     dispatch({
       type: MESSAGE_SEND_SUCCESS,
       payload: {
@@ -40,7 +45,9 @@ export const messageSend = (data) => async (dispatch) => {
 export const getMessage = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/chat/get-message/${id}`);
+      const response = await axios.get(
+        `${API_URLS.chatApi}/api/chat/get-message/${id}`
+      );
       dispatch({
         type: MESSAGE_GET_SUCCESS,
         payload: {
@@ -55,7 +62,10 @@ export const getMessage = (id) => {
 
 export const ImageMessageSend = (data) => async (dispatch) => {
   try {
-    const response = await axios.post("/api/chat/image-message-send", data);
+    const response = await axios.post(
+      `${API_URLS.chatApi}/api/chat/image-message-send`,
+      data
+    );
     dispatch({
       type: MESSAGE_SEND_SUCCESS,
       payload: {
@@ -69,7 +79,10 @@ export const ImageMessageSend = (data) => async (dispatch) => {
 
 export const seenMessage = (msg) => async (dispatch) => {
   try {
-    const response = await axios.post("/api/chat/seen-message", msg);
+    const response = await axios.post(
+      `${API_URLS.chatApi}/api/chat/seen-message`,
+      msg
+    );
     console.log(response.data);
   } catch (error) {
     console.log(error.response.message);
@@ -78,7 +91,10 @@ export const seenMessage = (msg) => async (dispatch) => {
 
 export const updateMessage = (msg) => async (dispatch) => {
   try {
-    const response = await axios.post("/api/chat/delivared-message", msg);
+    const response = await axios.post(
+      `${API_URLS.chatApi}/api/chat/delivared-message`,
+      msg
+    );
     console.log(response.data);
   } catch (error) {
     console.log(error.response.message);

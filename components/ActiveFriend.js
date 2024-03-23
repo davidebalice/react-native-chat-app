@@ -1,4 +1,5 @@
 import React from "react";
+import { View, TextInput, Button, Alert, Image } from "react-native";
 
 const ActiveFriend = ({ user, setCurrentFriend }) => {
   return (
@@ -15,9 +16,8 @@ const ActiveFriend = ({ user, setCurrentFriend }) => {
     >
       <View className="image-active-icon">
         <View className="image">
-          <img
-            src={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${user.userInfo.photo}`}
-            alt=""
+          <Image
+            source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${user.userInfo.photo}`}
           />
           <View className="active-icon"></View>
         </View>

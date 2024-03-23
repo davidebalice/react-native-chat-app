@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TextInput, Button, Alert, Image } from "react-native";
+import { View, TextInput, Button, Text, Image } from "react-native";
 const FriendInfo = ({ currentfriend, activeUser, message }) => {
   return (
     <View className="friend-info">
@@ -16,7 +16,7 @@ const FriendInfo = ({ currentfriend, activeUser, message }) => {
         activeUser.some((u) => u.userId === currentfriend._id) ? (
           <View className="active-user">Active</View>
         ) : (
-          ""
+          <Text> </Text>
         )}
 
         <View className="name">
@@ -35,7 +35,7 @@ const FriendInfo = ({ currentfriend, activeUser, message }) => {
                   <Image source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${m.message.photo}`} />
                 )
             )
-          : ""}
+          :  (<Text> </Text>)}
       </View>
     </View>
   );

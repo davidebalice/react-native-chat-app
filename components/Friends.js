@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 //import { FaRegCheckCircle } from "react-icons/fa";
-import { View, TextInput, Button, Alert, Image } from "react-native";
+import { View, TextInput, Button, Alert, Image, Text } from "react-native";
 
 const Friends = (props) => {
   const { fndInfo, msgInfo } = props.friend;
@@ -20,14 +20,14 @@ const Friends = (props) => {
           activeUser.some((u) => u.userId === fndInfo._id) ? (
             <View className="active_icon"></View>
           ) : (
-            ""
+            <Text> </Text>
           )}
         </View>
       </View>
 
       <View className="friend-name-seen">
         <View className="friend-name">
-          <h4
+          <Text
             className={
               msgInfo?.senderId !== myId &&
               msgInfo?.status !== undefined &&
@@ -37,13 +37,13 @@ const Friends = (props) => {
             }
           >
             {fndInfo.userName}
-          </h4>
+          </Text>
 
           <View className="msg-time">
             {msgInfo && msgInfo.senderId === myId ? (
-              <span>You </span>
+              <Text>You </Text>
             ) : (
-              <span
+              <Text
                 className={
                   msgInfo?.senderId !== myId &&
                   msgInfo?.status !== undefined &&
@@ -54,10 +54,10 @@ const Friends = (props) => {
               >
                 {" "}
                 {fndInfo.userName + " "}{" "}
-              </span>
+              </Text>
             )}
             {msgInfo && msgInfo.message.text ? (
-              <span
+              <Text
                 className={
                   msgInfo?.senderId !== myId &&
                   msgInfo?.status !== undefined &&
@@ -67,17 +67,17 @@ const Friends = (props) => {
                 }
               >
                 {msgInfo.message.text.slice(0, 10)}
-              </span>
+              </Text>
             ) : msgInfo && msgInfo.message.photo ? (
-              <span>Send A image </span>
+              <Text>Send image </Text>
             ) : (
-              <span>Connect You </span>
+              <Text>Connect you </Text>
             )}
-            <span>
+            <Text>
               {msgInfo
                 ? moment(msgInfo.createdAt).startOf("mini").fromNow()
                 : moment(fndInfo.createdAt).startOf("mini").fromNow()}
-            </span>
+            </Text>
           </View>
         </View>
 
@@ -92,15 +92,15 @@ const Friends = (props) => {
                 <Text>icona FaRegCheckCircle</Text>
               </View>
             ) : (
-              <View className="unseen"> </View>
+              <View className="unseen"><Text> </Text></View>
             )}
           </View>
         ) : (
           <View className="seen-unseen-icon">
             {msgInfo?.status !== undefined && msgInfo?.status !== "seen" ? (
-              <View className="seen-icon"> </View>
+              <View className="seen-icon"><Text> </Text></View>
             ) : (
-              ""
+              <Text> </Text>
             )}
           </View>
         )}

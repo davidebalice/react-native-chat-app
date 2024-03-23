@@ -5,14 +5,14 @@ import Login from "../components/Login";
 
 import { useSelector } from "react-redux";
 
-
 const Navigator = () => {
   const { page } = useSelector((state) => state.auth);
 
   return (
     <>
       {page === "login" && <Login />}
-      {page === "friends" || page === "chat" && <Chat />}
+      {page === "friends" && <Chat />}
+      {page === "chat" && <Chat />}
       {page === "register" && <Register />}
     </>
   );

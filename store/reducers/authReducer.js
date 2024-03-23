@@ -6,24 +6,12 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  SET_PAGE,
+  PAGE_CHAT,
 } from "../types/authType";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//import deCodeToken from "jwt-decode";
 import "core-js/stable/atob";
 import { jwtDecode } from "jwt-decode";
-//import * as jwt_decode from 'jwt-decode';
-
-/*
-STEP 1 Install npm install core-js
-
-STEP 2 import "core-js/stable/atob";
-
-Now simply use const token = "your_token";
-
-const decoded = jwtDecode(token);
-*/
 
 const authState = {
   loading: true,
@@ -36,8 +24,6 @@ const authState = {
 
 const tokenDecode = (token) => {
   const tokenDecoded = jwtDecode(token);
-  console.log("tokenDecoded");
-  console.log(tokenDecoded);
   const expTime = new Date(tokenDecoded.exp * 1000);
   if (new Date() > expTime) {
     return null;
@@ -90,7 +76,7 @@ export const authReducer = (state = authState, action) => {
       error: "",
       authenticate: true,
       loading: false,
-      page: "chat",
+      page: "friends",
     };
   }
 
@@ -117,7 +103,7 @@ export const authReducer = (state = authState, action) => {
     };
   }
 
-  if (type === "SET_PAGE") {
+  if (type === "PAGE_CHAT") {
     return {
       ...state,
       page: "chat",

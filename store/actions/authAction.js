@@ -12,12 +12,12 @@ export const userRegister = (data) => {
   return async (dispatch) => {
     const config = {
       headers: {
-        "Content-Type": "application/josn",
+        "Content-Type": "application/json",
       },
     };
     try {
       const response = await axios.post(
-        "/api/chat/user-register",
+        `${API_URLS.chatApi}/api/chat/user-register`,
         data,
         config
       );
@@ -82,7 +82,9 @@ export const userLogin = (data) => {
 
 export const userLogout = () => async (dispatch) => {
   try {
-    const response = await axios.post("/api/chat/user-logout");
+    const response = await axios.post(
+      `${API_URLS.chatApi}/api/chat/user-logout`
+    );
     if (response.data.success) {
       AsyncStorage.removeItem("authToken");
       dispatch({
@@ -94,7 +96,7 @@ export const userLogout = () => async (dispatch) => {
 
 export const setPage = (newPage) => {
   return {
-    type: 'SET_PAGE',
-    payload: newPage
+    type: "SET_PAGE",
+    payload: newPage,
   };
 };

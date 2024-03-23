@@ -4,8 +4,9 @@ import Message from "./Message";
 import MessageSend from "./MessageSend";
 import { useDispatch, useSelector } from "react-redux";
 //import { IoCaretBack } from "react-icons/io5";
+import { View, TextInput, Button, Alert, Image, Text } from "react-native";
 
-const RightSide = (props) => {
+const Messages = (props) => {
   const dispatch = useDispatch();
   const {
     currentfriend,
@@ -34,7 +35,7 @@ const RightSide = (props) => {
   return (
     <View className={`col-9 column0 ${page ? "" : "hiddenOnMobile"}`}>
       <View className="right-side">
-        <input type="checkbox" id="dot" />
+        <TextInput type="checkbox" id="dot" />
         <View className="row">
           <View className="col-8 column2">
             <View className="message-send-show">
@@ -52,7 +53,7 @@ const RightSide = (props) => {
                     activeUser.some((u) => u.userId === currentfriend._id) ? (
                       <View className="active-icon"></View>
                     ) : (
-                      ""
+                      <Text> </Text>
                     )}
                   </View>
                   <View className="name">
@@ -91,4 +92,4 @@ const RightSide = (props) => {
   );
 };
 
-export default RightSide;
+export default Messages;

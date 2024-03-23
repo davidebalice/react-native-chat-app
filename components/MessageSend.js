@@ -1,4 +1,5 @@
 import React from "react";
+import { View, TextInput, Button, Alert, Image, Text } from "react-native";
 
 /*
 import {
@@ -45,24 +46,26 @@ const MessageSend = ({
   };
 
   return (
-    <div className="message-send-section">
-      <input type="checkbox" id="emoji" />
+    <View className="message-send-section">
+      <TextInput type="checkbox" id="emoji" />
 
-      <div className="file hover-image">
-        <div className="add-image">Add Image</div>
-        <input
+      <View className="file hover-image">
+        <View className="add-image">
+          <Text>Add Image</Text>
+        </View>
+        <TextInput
           onChange={ImageSend}
           type="file"
           id="pic"
           className="form-control"
         />
-        <label htmlFor="pic">
-          <Text>icona FaFileImage</Text>
-        </label>
-      </div>
+        <Text htmlFor="pic">
+          icona FaFileImage
+        </Text>
+      </View>
 
-      <div className="message-type">
-        <input
+      <View className="message-type">
+        <TextInput
           type="text"
           onChange={inputHendle}
           onKeyPress={handleKeyPress}
@@ -72,23 +75,23 @@ const MessageSend = ({
           className="form-control"
           value={newMessage}
         />
-        <div className="file hover-gift">
-          <label htmlFor="emoji"> 😄 </label>
-        </div>
-      </div>
+        <View className="file hover-gift">
+          <Text htmlFor="emoji"> 😄 </Text>
+        </View>
+      </View>
 
-      <div onClick={sendMessage} className="file">
+      <View onClick={sendMessage} className="file">
         <Text>icona FaPaperPlane</Text>
-      </div>
+      </View>
 
-      <div className="emoji-section">
-        <div className="emoji">
+      <View className="emoji-section">
+        <View className="emoji">
           {emojis.map((e) => (
-            <span onClick={() => emojiSend(e)}>{e}</span>
+            <Text onClick={() => emojiSend(e)}>{e}</Text>
           ))}
-        </div>
-      </div>
-    </div>
+        </View>
+      </View>
+    </View>
   );
 };
 

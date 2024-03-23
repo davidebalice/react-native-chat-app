@@ -3,8 +3,16 @@ import React, { useEffect, useState, useRef } from "react";
 //import { Link } from "react-router-dom";
 import ActiveFriend from "./ActiveFriend";
 import Friends from "./Friends";
-import RightSide from "./RightSide";
-import { View, Text, TextInput, Button, Alert, Image } from "react-native";
+import Messages from "./Messages";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Alert,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getFriends,
@@ -26,7 +34,7 @@ import { io } from "socket.io-client";
 const Chat = () => {
   // const [notificationSPlay] = useSound(notificationSound);
   //const [sendingSPlay] = useSound(sendingSound);
-
+  //const dispatch = useDispatch();
   const scrollRef = useRef();
   const socket = useRef();
 
@@ -37,10 +45,9 @@ const Chat = () => {
     message_get_success,
     themeMood,
     new_user_add,
-    page,
   } = useSelector((state) => state.messenger);
 
-  const { myInfo } = useSelector((state) => state.auth);
+  const { page, myInfo } = useSelector((state) => state.auth);
 
   const [currentfriend, setCurrentFriend] = useState("");
   const [newMessage, setNewMessage] = useState("");
@@ -239,7 +246,7 @@ const Chat = () => {
   }, [message_get_success]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    //scrollRef.scrollToEnd({ animated: true });
   }, [message]);
 
   const emojiSend = (emu) => {
@@ -304,19 +311,8 @@ const Chat = () => {
 
   return (
     <View className={themeMood === "dark" ? "messenger theme" : "messenger"}>
-      {/*
-      <Toaster
-        position={"top-right"}
-        reverseOrder={false}
-        toastOptions={{
-          style: {
-            fontSize: "18px",
-          },
-        }}
-      />
-      */}
-
       <View className="row">
+        <Text>pageeeeeeeeeeeeeeeeeeeee:{page}</Text>
         <View className={`col-3 column1 ${page ? "hiddenOnMobile" : ""}`}>
           <View className="left-side">
             <View className="top">
@@ -398,10 +394,12 @@ const Chat = () => {
             </View>
 
             <View className="friends">
+              <Text>currentfriend:{currentfriend.name}</Text>
+              <Text>page:{page}</Text>
               {friends && friends.length > 0 ? (
                 friends.map((fd) => (
-                  <View
-                    onClick={() => {
+                  <TouchableOpacity
+                    onPress={() => {
                       setCurrentFriend(fd.fndInfo);
                       dispatch({
                         type: "PAGE_CHAT",
@@ -419,17 +417,17 @@ const Chat = () => {
                       myId={myInfo.id}
                       friend={fd}
                     />
-                  </View>
+                  </TouchableOpacity>
                 ))
               ) : (
-                <Text>No fiends</Text>
+                <Text>Contacts not found</Text>
               )}
             </View>
           </View>
         </View>
 
         {currentfriend ? (
-          <RightSide
+          <Messages
             currentfriend={currentfriend}
             inputHendle={inputHendle}
             newMessage={newMessage}

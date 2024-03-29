@@ -7,6 +7,7 @@ import {
   USER_LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   PAGE_CHAT,
+  PAGE_SELECT_FRIEND,
 } from "../types/authType";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -107,6 +108,13 @@ export const authReducer = (state = authState, action) => {
     return {
       ...state,
       page: "chat",
+    };
+  }
+
+  if (type === "PAGE_SELECT_FRIEND") {
+    return {
+      ...state,
+      page: "friends",
     };
   }
 

@@ -1,5 +1,13 @@
 import React from "react";
-import { View, TextInput, Button, Alert, Image, Text } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  Alert,
+  Image,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 /*
 import {
@@ -9,7 +17,7 @@ import {
 */
 
 const MessageSend = ({
-  inputHendle,
+  inputHandle,
   newMessage,
   sendMessage,
   emojiSend,
@@ -59,18 +67,15 @@ const MessageSend = ({
           id="pic"
           className="form-control"
         />
-        <Text htmlFor="pic">
-          icona FaFileImage
-        </Text>
+        <Text htmlFor="pic">icona FaFileImage</Text>
       </View>
 
       <View className="message-type">
         <TextInput
           type="text"
-          onChange={inputHendle}
+          onChangeText={(text) => inputHandle(text)}
           onKeyPress={handleKeyPress}
           name="message"
-          id="message"
           placeholder="Aa"
           className="form-control"
           value={newMessage}
@@ -80,9 +85,9 @@ const MessageSend = ({
         </View>
       </View>
 
-      <View onClick={sendMessage} className="file">
+      <TouchableOpacity onPress={sendMessage}>
         <Text>icona FaPaperPlane</Text>
-      </View>
+      </TouchableOpacity>
 
       <View className="emoji-section">
         <View className="emoji">

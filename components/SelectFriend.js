@@ -9,9 +9,10 @@ import {
   Text,
   TextInput,
   Button,
-  StyleSheet,
   Alert,
   Image,
+  ScrollView,
+  StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +33,7 @@ import { io } from "socket.io-client";
 //import notificationSound from "../audio/notification.mp3";
 //import sendingSound from "../audio/sending.mp3";
 
-const Chat = () => {
+const SelectFriend = () => {
   // const [notificationSPlay] = useSound(notificationSound);
   //const [sendingSPlay] = useSound(sendingSound);
   //const dispatch = useDispatch();
@@ -49,7 +50,6 @@ const Chat = () => {
   } = useSelector((state) => state.messenger);
 
   const { page, myInfo } = useSelector((state) => state.auth);
-
   const [currentfriend, setCurrentFriend] = useState("");
   const [newMessage, setNewMessage] = useState("");
 
@@ -159,13 +159,13 @@ const Chat = () => {
     }
   }, [socketMessage]);
 
-  const inputHandle = (text) => {
-    setNewMessage(text);
-    console.log(text);
+  const inputHandle = (e) => {
+    setNewMessage(e.target.value);
+
     socket.current.emit("typingMessage", {
       senderId: myInfo.id,
       reseverId: currentfriend._id,
-      msg: text,
+      msg: e.target.value,
     });
   };
 
@@ -313,21 +313,9 @@ const Chat = () => {
   return (
     <View className={themeMood === "dark" ? "messenger theme" : "messenger"}>
       <View className="row">
-        <Text>CHAT</Text>
+        <Text>SELECT FRIEND </Text>
         <Text>pageeeeeeeeeeeeeeeeeeeee:{page}</Text>
-
-        <TouchableOpacity
-          onPress={() => {
-            dispatch({
-              type: "PAGE_SELECT_FRIEND",
-              payload: true,
-            });
-          }}
-        >
-          <Text>Torna indietro</Text>
-        </TouchableOpacity>
-
-        <View>
+        <View >
           <View className="left-side">
             <View className="top">
               <View className="image-name">
@@ -342,7 +330,31 @@ const Chat = () => {
               </View>
 
               <View className="icons">
+                <View onClick={() => setHide(!hide)} className="icon">
+                  <Text>icona FaEllipsisH</Text>
+                </View>
+                <View className="icon">
+                  <Button
+                    title="Vai alla schermata di modifica"
+                    onPress={() => navigation.navigate("Edit")}
+                  >
+                    <Text>icona FaEdit</Text>
+                  </Button>
+                </View>
+
                 <View className={hide ? "theme_logout" : "theme_logout show"}>
+                  <Text>Dark Mode</Text>
+                  <View className="on">
+                    <Text htmlFor="dark">ON</Text>
+                    <TextInput
+                      onChange={(e) => dispatch(themeSet(e.target.value))}
+                      type="radio"
+                      value="dark"
+                      name="theme"
+                      id="dark"
+                    />
+                  </View>
+
                   <View className="of">
                     <Text htmlFor="white">OFF</Text>
                     <TextInput
@@ -360,8 +372,8 @@ const Chat = () => {
                 </View>
               </View>
             </View>
-            {/*
- <View className="friend-search">
+
+            <View className="friend-search">
               <View className="search">
                 <TextInput
                   onChange={search}
@@ -371,7 +383,6 @@ const Chat = () => {
                 />
               </View>
             </View>
-*/}
 
             <View className="active-friends">
               {activeUser && activeUser.length > 0
@@ -383,37 +394,57 @@ const Chat = () => {
                   ))
                 : ""}
             </View>
+            <View style={styles.container}>
+              <ScrollView style={styles.friends}>
+                <Text>currentfriend:{currentfriend.name}</Text>
+                <Text>page:{page}</Text>
+                {friends && friends.length > 0 ? (
+                  friends.map((fd) => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setCurrentFriend(fd.fndInfo);
+                        dispatch({
+                          type: "PAGE_CHAT",
+                          payload: true,
+                        });
+                      }}
+                      className={
+                        currentfriend._id === fd.fndInfo._id
+                          ? "hover-friend active"
+                          : "hover-friend"
+                      }
+                    >
+                      <Friends
+                        activeUser={activeUser}
+                        myId={myInfo.id}
+                        friend={fd}
+                      />
+                    </TouchableOpacity>
+                  ))
+                ) : (
+                  <Text>Contacts not found</Text>
+                )}
+              </ScrollView>
+            </View>
           </View>
         </View>
-
-        {currentfriend ? (
-          <Messages
-            currentfriend={currentfriend}
-            inputHandle={inputHandle}
-            newMessage={newMessage}
-            sendMessage={sendMessage}
-            message={message}
-            scrollRef={scrollRef}
-            emojiSend={emojiSend}
-            ImageSend={ImageSend}
-            activeUser={activeUser}
-            typingMessage={typingMessage}
-          />
-        ) : (
-          <Text>Select your Friend</Text>
-        )}
       </View>
     </View>
   );
 };
 
-export default Chat;
+export default SelectFriend;
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    padding: 0,
+    height: "70%",
+    paddingHorizontal:10,
+  },
+  friends: {
+    padding: 2,
+    height: "80%",
   },
   navigationContainer: {
     backgroundColor: "#ecf0f1",

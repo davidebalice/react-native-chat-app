@@ -1,18 +1,14 @@
-import React, { useEffect } from "react";
-import FriendInfo from "./FriendInfo";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
-import { useDispatch, useSelector } from "react-redux";
-//import { IoCaretBack } from "react-icons/io5";
 import {
-  View,
-  TextInput,
-  Button,
-  Alert,
   Image,
-  Text,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 const Messages = (props) => {
@@ -54,9 +50,6 @@ const Messages = (props) => {
           <TextInput type="checkbox" id="dot" />
           <View className="row">
             <View className="image-name">
-              <View onClick={back} className="backButton">
-                <Text>icona FaRegCheckCircle</Text>
-              </View>
               <View className="image">
                 <Image
                   source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
@@ -98,8 +91,6 @@ export default Messages;
 
 const styles = StyleSheet.create({
   messagesContainer: {
-    borderWidth: 1,
-    borderColor: "#ff0000",
-    height: "30%",
+    height: "60%",
   },
 });

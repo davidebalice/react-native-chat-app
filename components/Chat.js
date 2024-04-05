@@ -1,33 +1,23 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 //import { FaEllipsisH, FaEdit, FaSistrix, FaSignOutAlt } from "react-icons/fa";
 //import { Link } from "react-router-dom";
-import ActiveFriend from "./ActiveFriend";
-import Friends from "./Friends";
-import Messages from "./Messages";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Alert,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
+import { io } from "socket.io-client";
+import { userLogout } from "../store/actions/authAction";
 import {
-  getFriends,
-  messageSend,
-  getMessage,
   ImageMessageSend,
+  getFriends,
+  getMessage,
+  getTheme,
+  messageSend,
   seenMessage,
   updateMessage,
-  getTheme,
-  themeSet,
 } from "../store/actions/messengerAction";
-import { userLogout } from "../store/actions/authAction";
-//import toast, { Toaster } from "react-hot-toast";
-import { io } from "socket.io-client";
+import ActiveFriend from "./ActiveFriend";
+import Messages from "./Messages";
 //import useSound from "use-sound";
 //import notificationSound from "../audio/notification.mp3";
 //import sendingSound from "../audio/sending.mp3";
@@ -291,6 +281,10 @@ const Chat = () => {
   const logout = () => {
     dispatch(userLogout());
     socket.current.emit("logout", myInfo.id);
+    dispatch({
+      type: "PAGE_LOGIN",
+      payload: true,
+    });
   };
 
   useEffect(() => {
@@ -311,11 +305,8 @@ const Chat = () => {
   };
 
   return (
-    <View className={themeMood === "dark" ? "messenger theme" : "messenger"}>
-      <View className="row">
-        <Text>CHAT</Text>
-        <Text>pageeeeeeeeeeeeeeeeeeeee:{page}</Text>
-
+    <View style={styles.container}>
+      <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
             dispatch({
@@ -324,85 +315,48 @@ const Chat = () => {
             });
           }}
         >
-          <Text>Torna indietro</Text>
+          <Icon name="arrow-back-circle" size={24} color="#222" />
         </TouchableOpacity>
 
-        <View>
-          <View className="left-side">
-            <View className="top">
-              <View className="image-name">
-                <View className="image">
-                  <Image
-                    source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${myInfo.photo}`}
-                  />
-                </View>
-                <View className="name">
-                  <Text>{myInfo.userName}</Text>
-                </View>
-              </View>
-
-              <View className="icons">
-                <View className={hide ? "theme_logout" : "theme_logout show"}>
-                  <View className="of">
-                    <Text htmlFor="white">OFF</Text>
-                    <TextInput
-                      onChange={(e) => dispatch(themeSet(e.target.value))}
-                      type="radio"
-                      value="white"
-                      name="theme"
-                      id="white"
-                    />
-                  </View>
-
-                  <View onClick={logout} className="logout">
-                    <Text>icona logout</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            {/*
- <View className="friend-search">
-              <View className="search">
-                <TextInput
-                  onChange={search}
-                  type="text"
-                  placeholder="Search"
-                  className="form-control"
-                />
-              </View>
-            </View>
-*/}
-
-            <View className="active-friends">
-              {activeUser && activeUser.length > 0
-                ? activeUser.map((u) => (
-                    <ActiveFriend
-                      setCurrentFriend={setCurrentFriend}
-                      user={u}
-                    />
-                  ))
-                : ""}
-            </View>
-          </View>
+        <View className="active-friends">
+          {activeUser && activeUser.length > 0
+            ? activeUser.map((u) => (
+                <ActiveFriend setCurrentFriend={setCurrentFriend} user={u} />
+              ))
+            : ""}
         </View>
 
-        {currentfriend ? (
-          <Messages
-            currentfriend={currentfriend}
-            inputHandle={inputHandle}
-            newMessage={newMessage}
-            sendMessage={sendMessage}
-            message={message}
-            scrollRef={scrollRef}
-            emojiSend={emojiSend}
-            ImageSend={ImageSend}
-            activeUser={activeUser}
-            typingMessage={typingMessage}
+        <View className="image">
+          <Image
+            source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${myInfo.photo}`}
           />
-        ) : (
-          <Text>Select your Friend</Text>
-        )}
+        </View>
+
+        <View className="name">
+          <Text>{myInfo.userName}</Text>
+        </View>
+
+        <TouchableOpacity onPress={logout}>
+          <Icon2 name="logout" size={24} color="#ff0000" />
+        </TouchableOpacity>
       </View>
+
+      {currentfriend ? (
+        <Messages
+          currentfriend={currentfriend}
+          inputHandle={inputHandle}
+          newMessage={newMessage}
+          sendMessage={sendMessage}
+          message={message}
+          scrollRef={scrollRef}
+          emojiSend={emojiSend}
+          ImageSend={ImageSend}
+          activeUser={activeUser}
+          typingMessage={typingMessage}
+        />
+      ) : (
+        <Text>Select your Friend</Text>
+      )}
     </View>
   );
 };
@@ -414,6 +368,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     padding: 0,
+    height: "100%",
   },
   navigationContainer: {
     backgroundColor: "#ecf0f1",
@@ -472,5 +427,15 @@ const styles = StyleSheet.create({
     width: 100,
     height: 30,
     alignSelf: "flex-end",
+  },
+  header: {
+    backgroundColor: "#f1f1f1",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 30,
+    flexDirection: "row",
+    padding: 6,
+    gap: 10,
   },
 });

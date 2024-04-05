@@ -90,6 +90,7 @@ export const userLogout = () => async (dispatch) => {
       dispatch({
         type: "LOGOUT_SUCCESS",
       });
+      
     }
   } catch (error) {}
 };

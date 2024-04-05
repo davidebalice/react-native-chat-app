@@ -13,8 +13,6 @@ import {
   FlatList,
 } from "react-native";
 
-//import { FaRegCheckCircle } from "react-icons/fa";
-
 const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
   useEffect(() => {
     // scrollRef.scrollToEnd({ animated: true });
@@ -48,23 +46,17 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
                       alt=""
                     />
                   ) : m.status === "delivared" ? (
-                    <Text>FaRegCheckCircle</Text>
+                    <Text></Text>
                   ) : (
-                    <Text>FaRegCheckCircle</Text>
+                    <Text></Text>
                   )
                 ) : (
                   <Text></Text>
                 )}
-            {/*
-              <View className="time">
-                  <Text>{moment(m.createdAt).startOf("mini").fromNow()}</Text>
-                </View>
-            */}
-              
               </View>
             ) : (
-              <View ref={scrollRef} className="fd-message">
-                <View className="image-message-time">
+              <View ref={scrollRef} >
+                <View>
                   <Image
                     source={`${process.env.REACT_APP_API_BASE_URL}/api/chat/images/${currentfriend.photo}`}
                     alt=""
@@ -125,6 +117,7 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
       ) : (
         <Text></Text>
       )}
+      <View style={styles.spacer}></View>
     </>
   );
 };
@@ -136,7 +129,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     marginVertical: 10,
     paddingHorizontal:10,
-    borderWidth:1
   },
   message: {
     padding: 6,
@@ -163,4 +155,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     objectFit: "cover",
   },
+  spacer: {
+    height:40
+  }
 });

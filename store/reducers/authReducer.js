@@ -104,6 +104,13 @@ export const authReducer = (state = authState, action) => {
     };
   }
 
+  if (type === "PAGE_LOGIN") {
+    return {
+      ...state,
+      page: "login",
+    };
+  }
+
   if (type === "PAGE_CHAT") {
     return {
       ...state,
